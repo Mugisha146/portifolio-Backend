@@ -1,17 +1,23 @@
-// Blog.ts
-
 import mongoose from "mongoose";
 
-const blogSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  image: { type: String, required: true },
-  content: { type: String, required: true },
-});
-
-export interface BlogDocument extends mongoose.Document {
+interface BlogDocument extends mongoose.Document {
   title: string;
   image: string;
   content: string;
+  comments: string[]; // Array of comment IDs
+  likes: number;
+  shares: number;
 }
 
-export const Blog = mongoose.model<BlogDocument>("Blog", blogSchema);
+const blogSchema = new mongoose.Schema({
+  title: String,
+  image: String,
+  content: String,
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  likes: { type: Number, default: 0 },
+  shares: { type: Number, default: 0 },
+});
+
+const Blog = mongoose.model<BlogDocument>("Blog", blogSchema);
+
+export { Blog };
