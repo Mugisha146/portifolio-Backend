@@ -1,4 +1,4 @@
-// blogController.ts
+//src/controller/blogController.ts
 
 import { Request, Response } from "express";
 import { Blog } from "../models/Blog";
