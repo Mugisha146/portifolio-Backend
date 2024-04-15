@@ -20,10 +20,12 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.6",
     "bcryptjs": "^2.4.3",
-    "express": "^4.18.3",
+    "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.1",
     "nodemailer": "^6.9.13",
-    "test": "jest"
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "yamljs": "^0.3.0"
   }
 }
