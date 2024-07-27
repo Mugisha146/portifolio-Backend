@@ -61,7 +61,7 @@ For detailed documentation on the API endpoints and how to interact with them, r
 
 # Prefer Postman here's Available Endpoints:
 
-**https://portifolio-backend-api.onrender.com/api/users**: Endpoint for managing user accounts, including registration, authentication, and profile management.
+-**https://portifolio-backend-api.onrender.com/api/users**: Endpoint for managing user accounts, including registration, authentication, and profile management.
 
     POST /api/users: Register a new user.
     GET /api/users: Get all users.
@@ -69,13 +69,13 @@ For detailed documentation on the API endpoints and how to interact with them, r
     PUT /api/users/:id: Update a specific user.
     DELETE /api/users/:id: Delete a specific user.
     
-**https://portifolio-backend-api.onrender.com/api/auth**: Endpoint for user authentication, including login and logout functionality.
+-**https://portifolio-backend-api.onrender.com/api/auth**: Endpoint for user authentication, including login and logout functionality.
 
     POST /api/auth/register: Register a new user.
     POST /api/auth/login: Login an existing user.
     POST /api/auth/logout: Logout the current user.
     
-**https://portifolio-backend-api.onrender.com/api/blogs**: Endpoint for managing blog posts, including CRUD operations, commenting, liking, and sharing.
+-**https://portifolio-backend-api.onrender.com/api/blogs**: Endpoint for managing blog posts, including CRUD operations, commenting, liking, and sharing.
 
     POST /api/blogs: Create a new blog post.
     GET /api/blogs: Get all blog posts.
@@ -86,7 +86,7 @@ For detailed documentation on the API endpoints and how to interact with them, r
     POST /api/blogs/:id/like: Like a specific blog post.
     POST /api/blogs/:id/share: Share a specific blog post.
     
-**https://portifolio-backend-api.onrender.com/api/contact**: Endpoint for sending messages to the administrator and managing contact messages.
+-**https://portifolio-backend-api.onrender.com/api/contact**: Endpoint for sending messages to the administrator and managing contact messages.
 
     POST /api/contact: Create a new contact message.
     GET /api/contact: Get all contact messages.
@@ -94,15 +94,15 @@ For detailed documentation on the API endpoints and how to interact with them, r
     PUT /api/contact/:id: Reply to a specific contact message.
     DELETE /api/contact/:id: Delete a specific contact message.
     
-**https://portifolio-backend-api.onrender.com/api/subscribe**: Endpoint for subscribing to receive updates .
+-**https://portifolio-backend-api.onrender.com/api/subscribe**: Endpoint for subscribing to receive updates .
 
     POST /api/subscribe
     
-**https://portifolio-backend-api.onrender.com/api/unsubscribe**: Endpoint for unsubscribing from updates.
+-**https://portifolio-backend-api.onrender.com/api/unsubscribe**: Endpoint for unsubscribing from updates.
 
     POST /api/unsubscribe
     
-**https://portifolio-backend-api.onrender.com/api/skills**: Endpoint for managing user skills, including adding, retrieving, updating, and deleting skills.
+-**https://portifolio-backend-api.onrender.com/api/skills**: Endpoint for managing user skills, including adding, retrieving, updating, and deleting skills.
 
     POST /api/skills: Create a new skill.
     GET /api/skills: Get all skills.
@@ -110,7 +110,7 @@ For detailed documentation on the API endpoints and how to interact with them, r
     PUT /api/skills/:id: Update a specific skill.
     DELETE /api/skills/:id: Delete a specific skill.
     
-**https://portifolio-backend-api.onrender.com/api/projects**: Endpoint for managing user projects, including adding, retrieving, updating, and deleting projects.
+-**https://portifolio-backend-api.onrender.com/api/projects**: Endpoint for managing user projects, including adding, retrieving, updating, and deleting projects.
 
     POST /api/projects: Create a new project.
     GET /api/projects: Get all projects.
@@ -128,14 +128,14 @@ $ npm run test
 
 # Technologies Used
 
-**Node.js**: Backend JavaScript runtime environment.
-**Express.js**: Web application framework for Node.js used for building APIs.
-**MongoDB**: NoSQL database used for storing data.
-**Mongoose**: MongoDB object modeling for Node.js.
-**JSON Web Tokens (JWT)**: Used for user authentication and authorization.
-**Swagger/OpenAPI**: Used for API documentation.
+-**Node.js**: Backend JavaScript runtime environment.
+-**Express.js**: Web application framework for Node.js used for building APIs.
+-**MongoDB**: NoSQL database used for storing data.
+-**Mongoose**: MongoDB object modeling for Node.js.
+-**JSON Web Tokens (JWT)**: Used for user authentication and authorization.
+-**Swagger/OpenAPI**: Used for API documentation.
 
 # Contributing
 
-# Contributions are welcome! If you have suggestions for improvements, please fork the repository and create a pull request with your changes.
+Contributions are welcome! If you have suggestions for improvements, please fork the repository and create a pull request with your changes.
 
