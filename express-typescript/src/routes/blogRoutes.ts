@@ -19,7 +19,7 @@ const router = express.Router();
 router.post("/", authenticateToken, async (req, res) => {
   // Check if the user is an admin
   const email = req.user.email;
-  if (email !== "emmyzizo1@gmail.com") {
+  if (email !== (process.env.EMAILS as string)) {
     return res.status(403).send("Forbidden");
   }
   createBlog(req, res);
@@ -35,7 +35,7 @@ router.get("/:id", getBlogById);
 router.put("/:id", authenticateToken, async (req, res) => {
   // Check if the user is an admin
   const email = req.user.email;
-  if (email !== "emmyzizo1@gmail.com") {
+  if (email !== (process.env.EMAILS as string)) {
     return res.status(403).send("Forbidden");
   }
   updateBlog(req, res);
@@ -45,7 +45,7 @@ router.put("/:id", authenticateToken, async (req, res) => {
 router.delete("/:id", authenticateToken, async (req, res) => {
   // Check if the user is an admin
   const email = req.user.email;
-  if (email !== "emmyzizo1@gmail.com") {
+  if (email !== (process.env.EMAILS as string)) {
     return res.status(403).send("Forbidden");
   }
   deleteBlog(req, res);

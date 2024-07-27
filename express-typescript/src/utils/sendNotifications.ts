@@ -18,7 +18,7 @@ const sendNotifications = async (newBlog: any) => {
         },
       });
       const mailOptions = {
-        from: "emmyzizo1@gmail.com",
+        from: process.env.EMAILS as string,
         to: user.email,
         subject: "New Blog Post",
         text: "Check out our latest blog post!",
