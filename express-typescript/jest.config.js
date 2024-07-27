@@ -1,10 +1,12 @@
-// module.exports = {
-//   preset: "ts-jest",
-//   testEnvironment: "node",
-//   roots: ["<rootDir>/src"],
-//   testMatch: ["**/*.test.ts"],
-//   moduleFileExtensions: ["ts", "js", "json", "node"],
-// };
+module.exports = {
+  preset: "ts-jest",
+  testEnvironment: "node",
+  roots: ["<rootDir>/src"],
+  testMatch: ["**/*.test.ts"],
+  moduleFileExtensions: ["ts", "js", "json", "node"],
+};
+
+// import jwt from "jsonwebtoken";
 // import { Request, Response } from "express";
 // import { loginUser } from "./authController";
 // import { User } from "../models/User";

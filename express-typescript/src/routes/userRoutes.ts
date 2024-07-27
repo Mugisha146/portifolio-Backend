@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
     if (!validPassword) {
       return res.status(401).send("Invalid password");
     }
-       const JWT_SECRET = "emmyzizo1";
+       const JWT_SECRET = process.env.SECRETS as string;
     const token = jwt.sign({ email: user.email }, JWT_SECRET);
     res.json({ token });
   } catch (error) {
@@ -66,7 +66,7 @@ router.post("/create", authenticateToken, async (req, res) => {
 router.get("/", authenticateToken, async (req, res) => {
   try {
     const email = req.user.email;
-    if (email !== "emmyzizo1@gmail.com") {
+    if (email !== (process.env.EMAILS as string)) {
       return res.status(403).send("Forbidden");
     }
     const users = await User.find();
@@ -120,7 +120,7 @@ router.delete("/:id", authenticateToken, async (req, res) => {
     
     // Check if the logged-in user is an admin
     const loggedInUserEmail = req.user.email;
-    if (loggedInUserEmail !== "emmyzizo1@gmail.com") {
+    if (loggedInUserEmail !== (process.env.EMAILS as string)) {
       return res.status(403).send("Forbidden");
     }
     

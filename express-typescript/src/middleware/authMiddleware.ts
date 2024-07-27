@@ -20,7 +20,7 @@ export const authenticateToken = (
   const token = authHeader && authHeader.split(" ")[1];
   if (!token) return res.sendStatus(401);
 
-  jwt.verify(token, process.env.JWT_SECRET || "emmyzizo1", (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET || (process.env.SECRETS as string), (err, user) => {
     if (err) return res.sendStatus(403);
     req.user = user;
     next();

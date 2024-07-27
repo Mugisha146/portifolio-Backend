@@ -1,7 +1,6 @@
 import express from "express";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
-import { connectDatabase } from "./database/database";
 import { contactRoutes } from "./routes/contactRoutes";
 import { userRoutes } from "./routes/userRoutes";
 import { authRoutes } from "./routes/authRoutes";
@@ -10,6 +9,10 @@ import { subscriptionRoutes } from "./routes/subscriptionRoutes";
 import { unsubscribeRoutes } from "./routes/unsubscribeRoutes";
 import { skillRoutes } from "./routes/skillRoutes";
 import { projectRoutes } from "./routes/projectRoutes";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const swaggerDocument = {
   openapi: "3.0.0",
@@ -22,6 +25,9 @@ const swaggerDocument = {
   servers: [
     {
       url: "http://localhost:3000",
+    },
+    {
+      url: "https://portifolio-backend-api.onrender.com",
     },
   ],
   paths: {
@@ -759,27 +765,21 @@ app.use(express.json());
 // Middleware to serve Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-// Connect to MongoDB
-connectDatabase();
 
-// Routes
-// Welcome endpoint
-app.get("/api", (req, res) => {
-  res.send(`
-   Welcome to Portfolio-backend API! 
-    For detailed documentation, please refer to our API documentation: https://portifolio-backend-api.onrender.com/api-docs
-  `);
-});
-app.use("/api/users", userRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/blogs", blogRoutes);
-app.use("/api/contact", contactRoutes);
-app.use("/api/subscribe", subscriptionRoutes);
-app.use("/api/unsubscribe", unsubscribeRoutes);
-app.use("/api/skills", skillRoutes);
-app.use("/api/projects", projectRoutes);
+
+mongoose
+  .connect(process.env.MONGO_URL as string)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((error: Error) => {
+    console.log(error);
+  });
+    
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+export { app, mongoose };

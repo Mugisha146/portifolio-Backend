@@ -1,0 +1,42 @@
+name: Node.js CI
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "ft-auth-crud" ]
+env:
+  MONGODB_URL: ${{secrets.MONGODB_URL}}
+  PORT: ${{secrets.PORT}}
+  CLOUDINARYNAME: ${{secrets.CLOUDINARYNAME}}
+  APIKEY: ${{secrets.APIKEY}}
+  APISECRET: ${{secrets.APISECRET}}
+  JWT_SECRET: ${{secrets.JWT_SECRET}}
+  MONGODB_URL_TEST: ${{secrets.MONGODB_URL_TEST}}
+  PORT_TEST: ${{secrets.PORT_TEST}}
+  COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build --if-present
+    - run: npm test
+    - name: Install coveralls package
+      run: npm install coveralls
+    - name: Report coverage to Coveralls
+      run: npm run coveralls
+      env:
+          COVERALLS_REPO_TOKEN: ${{secrets.COVERALLS_REPO_TOKEN }}
+nodejs.orgnodejs.org
+Node.js — Previous Releases
+Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine.
