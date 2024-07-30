@@ -20,7 +20,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/app.ts",
+    "start": "ts-node dist/app.ts",
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "test": "jest"
   },
