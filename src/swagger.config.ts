@@ -10,6 +10,10 @@ const swaggerDocument = {
       url: "http://localhost:3000",
       description: "Local server",
     },
+    {
+      url: "https://portifolio-backend-api.onrender.com",
+      description: "Render server",
+    },
   ],
   paths: {
     // User Endpoints
