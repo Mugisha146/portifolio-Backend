@@ -35,7 +35,7 @@ git clone https://github.com/Mugisha146/portfolio-backend.git
 3.Install Dependencies:
 
 ```bash
-npm install
+npm install ts-node --save-dev
 ```
 
 4.Set Environment Variables: Create a .env file in the root directory and add necessary environment variables. You may need to set variables like PORT, MONGODB_URI, and JWT_SECRET.
