@@ -9,7 +9,7 @@ import { subscriptionRoutes } from "./routes/subscriptionRoutes";
 import { unsubscribeRoutes } from "./routes/unsubscribeRoutes";
 import { skillRoutes } from "./routes/skillRoutes";
 import { projectRoutes } from "./routes/projectRoutes";
-import mongoose from "mongoose";
+import connectDB  from "./database/database";
 import dotenv from "dotenv";
 import cors from "cors"
 
@@ -44,20 +44,11 @@ app.use("/api/unsubscribe", unsubscribeRoutes);
 app.use("/api/skills", skillRoutes);
 app.use("/api/projects", projectRoutes);
 
-
-mongoose
-  .connect(process.env.MONGO_URL as string)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((error: Error) => {
-    console.log(error);
-  });
-    
+connectDB();
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-export { app, mongoose };
+export { app};
