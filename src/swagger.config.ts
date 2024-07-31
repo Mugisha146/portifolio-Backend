@@ -1,3 +1,5 @@
+import { get } from "http";
+
 const swaggerDocument = {
   openapi: "3.0.0",
   info: {
@@ -16,7 +18,6 @@ const swaggerDocument = {
     },
   ],
   paths: {
-    // User Endpoints
     "/api/users/register": {
       post: {
         summary: "Register a new user",
@@ -118,7 +119,7 @@ const swaggerDocument = {
         },
       },
     },
-    "/api/users/me": {
+    "/api/users/{id}": {
       get: {
         summary: "Get current user's information",
         description: "Retrieve information about the currently logged-in user.",
@@ -161,16 +162,6 @@ const swaggerDocument = {
         },
         security: [{ bearerAuth: [] }],
       },
-      delete: {
-        summary: "Delete current user account",
-        description: "Remove the account of the currently logged-in user.",
-        responses: {
-          "204": { description: "User account deleted successfully" },
-          "401": { description: "Unauthorized" },
-          "500": { description: "Internal server error" },
-        },
-        security: [{ bearerAuth: [] }],
-      },
     },
     "/api/users": {
       get: {
@@ -192,6 +183,8 @@ const swaggerDocument = {
         },
         security: [{ bearerAuth: [] }],
       },
+    },
+    "api/users/create":{
       post: {
         summary: "Create a new user",
         description: "Create a new user account.",
@@ -216,83 +209,6 @@ const swaggerDocument = {
         },
       },
     },
-    "/api/users/{id}": {
-      get: {
-        summary: "Get a user by ID",
-        description: "Retrieve a user by their ID.",
-        parameters: [
-          {
-            in: "path",
-            name: "id",
-            required: true,
-            schema: { type: "string" },
-          },
-        ],
-        responses: {
-          "200": {
-            description: "User found",
-            content: {
-              "application/json": {
-                schema: { $ref: "#/components/schemas/User" },
-              },
-            },
-          },
-          "404": { description: "User not found" },
-        },
-        security: [{ bearerAuth: [] }],
-      },
-      put: {
-        summary: "Update a user",
-        description: "Update the details of a user by their ID.",
-        parameters: [
-          {
-            in: "path",
-            name: "id",
-            required: true,
-            schema: { type: "string" },
-          },
-        ],
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              schema: { $ref: "#/components/schemas/User" },
-            },
-          },
-        },
-        responses: {
-          "200": {
-            description: "User updated successfully",
-            content: {
-              "application/json": {
-                schema: { $ref: "#/components/schemas/User" },
-              },
-            },
-          },
-          "404": { description: "User not found" },
-        },
-        security: [{ bearerAuth: [] }],
-      },
-      delete: {
-        summary: "Delete a user",
-        description: "Delete a user by their ID.",
-        parameters: [
-          {
-            in: "path",
-            name: "id",
-            required: true,
-            schema: { type: "string" },
-          },
-        ],
-        responses: {
-          "204": { description: "User deleted successfully" },
-          "404": { description: "User not found" },
-        },
-        security: [{ bearerAuth: [] }],
-      },
-    },
-
-    // Blog Endpoints
     "/api/blogs": {
       get: {
         summary: "Get all blogs",
@@ -310,30 +226,32 @@ const swaggerDocument = {
           },
         },
       },
-      post: {
-        summary: "Create a new blog (admin only)",
-        requestBody: {
-          required: true,
-          content: {
-            "application/json": {
-              schema: { $ref: "#/components/schemas/Blog" },
-            },
-          },
-        },
-        responses: {
-          "201": {
-            description: "Blog created",
+    },
+      "api/blogs/create": {
+        post: {
+          summary: "Create a new blog (admin only)",
+          requestBody: {
+            required: true,
             content: {
               "application/json": {
                 schema: { $ref: "#/components/schemas/Blog" },
               },
             },
           },
-          "403": { description: "Forbidden" },
+          responses: {
+            "201": {
+              description: "Blog created",
+              content: {
+                "application/json": {
+                  schema: { $ref: "#/components/schemas/Blog" },
+                },
+              },
+            },
+            "403": { description: "Forbidden" },
+          },
+          security: [{ bearerAuth: [] }],
         },
-        security: [{ bearerAuth: [] }],
       },
-    },
     "/api/blogs/{id}": {
       get: {
         summary: "Get a blog by ID",
@@ -469,36 +387,236 @@ const swaggerDocument = {
         security: [{ bearerAuth: [] }],
       },
     },
-
-    // Contact Endpoints
-    "/api/contact": {
-      post: {
-        summary: "Create a contact message",
-        requestBody: {
-          required: true,
-          content: {
+    "/api/contact/create": {
+      "post": {
+        "summary": "Create a contact message",
+        "requestBody": {
+          "required": true,
+          "content": {
             "application/json": {
-              schema: {
-                type: "object",
-                properties: {
-                  name: { type: "string", example: "John Doe" },
-                  email: { type: "string", example: "john.doe@example.com" },
-                  message: {
-                    type: "string",
-                    example: "This is a contact message.",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "John Doe"
                   },
-                },
-              },
-            },
+                  "email": {
+                    "type": "string",
+                    "example": "john.doe@example.com"
+                  },
+                  "message": {
+                    "type": "string",
+                    "example": "This is a contact message."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Message created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              }
+            }
           },
-        },
-        responses: {
-          "201": { description: "Message created" },
-        },
+          "500": {
+            "description": "Error creating contact message"
+          }
+        }
       },
     },
-
-    // Project Endpoints
+    "/api/contact": {
+      "get": {
+        "summary": "Get all contact messages",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of contact messages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contact"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error getting contact messages"
+          }
+        }
+      }
+    },
+    "/api/contact/{id}": {
+      "get": {
+        "summary": "Get a contact message by ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the contact message"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Contact message found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Message not found"
+          },
+          "500": {
+            "description": "Error getting contact message"
+          }
+        }
+      },
+      "put": {
+        "summary": "Reply to a contact message",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the contact message"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "replied": {
+                    "type": "string",
+                    "example": "This is a reply message."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contact message replied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Message not found"
+          },
+          "500": {
+            "description": "Error replying to contact message"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a contact message",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the contact message"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Contact message deleted"
+          },
+          "404": {
+            "description": "Message not found"
+          },
+          "500": {
+            "description": "Error deleting contact message"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Contact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "60d21b8667d0d8992e610c85"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "example": "john.doe@example.com"
+          },
+          "message": {
+            "type": "string",
+            "example": "This is a contact message."
+          },
+          "replied": {
+            "type": "string",
+            "example": "This is a reply message."
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      },
+    },
     "/api/projects": {
       get: {
         summary: "Get all projects",
@@ -516,6 +634,8 @@ const swaggerDocument = {
           },
         },
       },
+    },
+        "/api/projects/create": {
       post: {
         summary: "Create a new project (admin only)",
         requestBody: {
@@ -613,8 +733,6 @@ const swaggerDocument = {
         security: [{ bearerAuth: [] }],
       },
     },
-
-    // Skill Endpoints
     "/api/skills": {
       get: {
         summary: "Get all skills",
@@ -632,6 +750,8 @@ const swaggerDocument = {
           },
         },
       },
+    },
+      "/api/skills/create": {
       post: {
         summary: "Create a new skill (admin only)",
         requestBody: {
@@ -729,8 +849,6 @@ const swaggerDocument = {
         security: [{ bearerAuth: [] }],
       },
     },
-
-    // Subscription Endpoints
     "/api/subscribe": {
       post: {
         summary: "Subscribe to notifications",
@@ -771,58 +889,6 @@ const swaggerDocument = {
         responses: {
           "200": { description: "Unsubscribed successfully" },
         },
-      },
-    },
-  },
-  components: {
-    schemas: {
-      User: {
-        type: "object",
-        properties: {
-          id: { type: "string", example: "60d0fe4f5311236168a109ca" },
-          name: { type: "string", example: "John Doe" },
-          email: { type: "string", example: "john.doe@example.com" },
-          password: { type: "string", example: "password123" },
-          role: { type: "string", example: "user" },
-        },
-      },
-      Blog: {
-        type: "object",
-        properties: {
-          id: { type: "string", example: "60d0fe4f5311236168a109cb" },
-          title: { type: "string", example: "My First Blog" },
-          content: {
-            type: "string",
-            example: "This is the content of the blog.",
-          },
-          author: { type: "string", example: "John Doe" },
-        },
-      },
-      Project: {
-        type: "object",
-        properties: {
-          id: { type: "string", example: "60d0fe4f5311236168a109cc" },
-          name: { type: "string", example: "Project Name" },
-          description: {
-            type: "string",
-            example: "This is a project description.",
-          },
-        },
-      },
-      Skill: {
-        type: "object",
-        properties: {
-          id: { type: "string", example: "60d0fe4f5311236168a109cd" },
-          name: { type: "string", example: "JavaScript" },
-          level: { type: "string", example: "Advanced" },
-        },
-      },
-    },
-    securitySchemes: {
-      bearerAuth: {
-        type: "http",
-        scheme: "bearer",
-        bearerFormat: "JWT",
       },
     },
   },

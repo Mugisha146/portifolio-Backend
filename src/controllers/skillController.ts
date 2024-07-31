@@ -1,9 +1,7 @@
-// src/controllers/skillController.ts
-
 import { Request, Response } from "express";
 import Skill from "../models/Skill";
 
-// Create a new skill
+
 export const createSkill = async (req: Request, res: Response) => {
   try {
     const { name, percentage } = req.body;
@@ -16,7 +14,7 @@ export const createSkill = async (req: Request, res: Response) => {
   }
 };
 
-// Get all skills
+
 export const getSkills = async (req: Request, res: Response) => {
   try {
     const skills = await Skill.find();
@@ -27,7 +25,7 @@ export const getSkills = async (req: Request, res: Response) => {
   }
 };
 
-// Get a skill by ID
+
 export const getSkillById = async (req: Request, res: Response) => {
   try {
     const skill = await Skill.findById(req.params.id);
@@ -41,7 +39,7 @@ export const getSkillById = async (req: Request, res: Response) => {
   }
 };
 
-// Update a skill
+
 export const updateSkill = async (req: Request, res: Response) => {
   try {
     const { name, percentage } = req.body;

@@ -1,9 +1,7 @@
-//src/controlller/contactController.ts;
-
 import { Request, Response } from "express";
 import { Contact } from "../models/contact";
 
-// Create a new contact message
+
 export const createMessage = async (req: Request, res: Response) => {
   try {
     const { name, email, message } = req.body;
@@ -16,7 +14,7 @@ export const createMessage = async (req: Request, res: Response) => {
   }
 };
 
-// Get all contact messages
+
 export const getMessages = async (req: Request, res: Response) => {
   try {
     const messages = await Contact.find();
@@ -27,7 +25,7 @@ export const getMessages = async (req: Request, res: Response) => {
   }
 };
 
-// Get a single contact message by ID
+
 export const getMessageById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -42,11 +40,11 @@ export const getMessageById = async (req: Request, res: Response) => {
   }
 };
 
-// Reply to a contact message
+
 export const replyToMessage = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { replied } = req.body; // ID of the admin who replied
+    const { replied } = req.body;
     const message = await Contact.findByIdAndUpdate(
       id,
       { replied },
@@ -62,7 +60,7 @@ export const replyToMessage = async (req: Request, res: Response) => {
   }
 };
 
-// Delete a contact message
+
 export const deleteMessage = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;

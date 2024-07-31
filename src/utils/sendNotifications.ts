@@ -1,15 +1,12 @@
-// utils/sendNotifications.ts
 import nodemailer from "nodemailer";
 import Subscription, { SubscriptionDocument } from "../models/Subscription";
 
 const sendNotifications = async (newBlog: any) => {
   try {
-    // Retrieve list of subscribed users from the database
+
     const subscribedUsers: SubscriptionDocument[] = await Subscription.find({});
-    // Iterate over each subscribed user and send them a notification email
     subscribedUsers.forEach(async (user) => {
       const transporter = nodemailer.createTransport({
-        // Configure SMTP transport
         
         service: "gmail",
         auth: {

@@ -8,23 +8,15 @@ import {
   updateSkill,
   deleteSkill,
 } from "../controllers/skillController";
-import { authenticateToken } from "../middleware/authMiddleware";
+import { authenticateToken, restrictTo } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
-// Create a new skill
-router.post("/",authenticateToken, createSkill);
 
-// Get all skills
+router.post("/create",authenticateToken,restrictTo, createSkill);
 router.get("/", getSkills);
-
-// Get a skill by ID
 router.get("/:id", getSkillById);
-
-// Update a skill
-router.put("/:id",authenticateToken, updateSkill);
-
-// Delete a skill
-router.delete("/:id",authenticateToken, deleteSkill);
+router.put("/:id",authenticateToken, restrictTo, updateSkill);
+router.delete("/:id",authenticateToken, restrictTo, deleteSkill);
 
 export { router as skillRoutes };

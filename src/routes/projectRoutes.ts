@@ -6,23 +6,15 @@ import {
   updateProject,
   deleteProject,
 } from "../controllers/projectController";
-import { authenticateToken } from "../middleware/authMiddleware";
+import { authenticateToken, restrictTo } from "../middleware/authMiddleware";
 
 const router = express.Router();
 
-// Create a new project
-router.post("/",authenticateToken, createProject);
 
-// Get all projects
+router.post("/create",authenticateToken, restrictTo, createProject);
 router.get("/", getAllProjects);
-
-// Get a project by ID
 router.get("/:id", getProjectById);
-
-// Update a project
-router.put("/:id",authenticateToken, updateProject);
-
-// Delete a project
-router.delete("/:id",authenticateToken, deleteProject);
+router.put("/:id",authenticateToken, restrictTo, updateProject);
+router.delete("/:id", authenticateToken, restrictTo, deleteProject);
 
 export { router as projectRoutes };

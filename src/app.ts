@@ -3,8 +3,7 @@ import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "./swagger.config";
 import { contactRoutes } from "./routes/contactRoutes";
 import { userRoutes } from "./routes/userRoutes";
-import { authRoutes } from "./routes/authRoutes";
-import { blogRoutes } from "./routes/blogRoutes"; // Import blog routes
+import { blogRoutes } from "./routes/blogRoutes"; 
 import { subscriptionRoutes } from "./routes/subscriptionRoutes";
 import { unsubscribeRoutes } from "./routes/unsubscribeRoutes";
 import { skillRoutes } from "./routes/skillRoutes";
@@ -17,7 +16,7 @@ dotenv.config();
 
 const app = express();
 
-// Middleware to parse JSON bodies
+
 app.use(express.json());
 
 // const corsOptions = {
@@ -28,17 +27,11 @@ app.use(express.json());
 
 // app.use(cors(corsOptions));
 
-
-// Middleware to handle CORS
 app.use(cors());
-// Middleware to serve Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-// Route configurations
 app.use("/api/contact", contactRoutes);
 app.use("/api/users", userRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/blogs", blogRoutes); // Use blog routes
+app.use("/api/blogs", blogRoutes);
 app.use("/api/subscribe", subscriptionRoutes);
 app.use("/api/unsubscribe", unsubscribeRoutes);
 app.use("/api/skills", skillRoutes);

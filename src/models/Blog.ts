@@ -4,7 +4,7 @@ interface BlogDocument extends mongoose.Document {
   title: string;
   image: string;
   content: string;
-  comments: string[]; // Array of comment IDs
+  comments: string[];
   likes: number;
   shares: number;
 }

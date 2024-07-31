@@ -1,13 +1,15 @@
 import { Request, Response } from "express";
 import { Blog } from "../models/Blog";
 import { Comment } from "../models/comment";
+import sendNotifications from "../utils/sendNotifications";
 
-// Create a new blog
+
 export const createBlog = async (req: Request, res: Response) => {
   try {
     const { title, image, content } = req.body;
     const blog = new Blog({ title, image, content });
     await blog.save();
+     await sendNotifications(blog);
     res.sendStatus(201);
   } catch (error) {
     console.error(error);
@@ -15,7 +17,7 @@ export const createBlog = async (req: Request, res: Response) => {
   }
 };
 
-// Get all blogs
+
 export const getBlogs = async (req: Request, res: Response) => {
   try {
     const blogs = await Blog.find();
@@ -26,7 +28,7 @@ export const getBlogs = async (req: Request, res: Response) => {
   }
 };
 
-// Get a blog by ID
+
 export const getBlogById = async (req: Request, res: Response) => {
   try {
     const blogId = req.params.id;
@@ -41,7 +43,7 @@ export const getBlogById = async (req: Request, res: Response) => {
   }
 };
 
-// Update a blog
+
 export const updateBlog = async (req: Request, res: Response) => {
   try {
     const blogId = req.params.id;
@@ -61,7 +63,7 @@ export const updateBlog = async (req: Request, res: Response) => {
   }
 };
 
-// Delete a blog
+
 export const deleteBlog = async (req: Request, res: Response) => {
   try {
     const blogId = req.params.id;
@@ -76,29 +78,23 @@ export const deleteBlog = async (req: Request, res: Response) => {
   }
 };
 
-// Controller method to add a comment to a blog
+
 export const addComment = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { text } = req.body;
 
-    // Create a new Comment document
     const comment = new Comment({ text });
     await comment.save();
 
-    // Find the corresponding blog by its ID
     const blog = await Blog.findById(id);
     if (!blog) {
       return res.status(404).send("Blog not found");
     }
 
-    // Push the ObjectId reference of the newly created comment into the comments array of the blog
     blog.comments.push(comment.id);
-
-    // Save the updated blog document
     await blog.save();
 
-    // Send the updated blog document as the response
     res.status(201).json(blog);
   } catch (error) {
     console.error(error);
@@ -106,7 +102,7 @@ export const addComment = async (req: Request, res: Response) => {
   }
 };
 
-// Controller method to like a blog
+
 export const likeBlog = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -114,7 +110,7 @@ export const likeBlog = async (req: Request, res: Response) => {
     if (!blog) {
       return res.status(404).send("Blog not found");
     }
-    blog.likes += 1; // Increment likes count
+    blog.likes += 1;
     await blog.save();
     res.status(200).json(blog);
   } catch (error) {
@@ -123,7 +119,7 @@ export const likeBlog = async (req: Request, res: Response) => {
   }
 };
 
-// Controller method to share a blog
+
 export const shareBlog = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
@@ -131,7 +127,7 @@ export const shareBlog = async (req: Request, res: Response) => {
     if (!blog) {
       return res.status(404).send("Blog not found");
     }
-    blog.shares += 1; // Increment shares count
+    blog.shares += 1; 
     await blog.save();
     res.status(200).json(blog);
   } catch (error) {

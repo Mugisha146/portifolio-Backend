@@ -1,9 +1,7 @@
-//src/controlller/projectController.ts;
-
 import { Request, Response } from "express";
 import Project, { ProjectDocument } from "../models/Project";
 
-// Create a new project
+
 export const createProject = async (req: Request, res: Response) => {
   try {
     const { name, description, image } = req.body;
@@ -16,7 +14,7 @@ export const createProject = async (req: Request, res: Response) => {
   }
 };
 
-// Get all projects
+
 export const getAllProjects = async (req: Request, res: Response) => {
   try {
     const projects = await Project.find();
@@ -27,7 +25,7 @@ export const getAllProjects = async (req: Request, res: Response) => {
   }
 };
 
-// Get a project by ID
+
 export const getProjectById = async (req: Request, res: Response) => {
   try {
     const projectId = req.params.id;
@@ -42,7 +40,7 @@ export const getProjectById = async (req: Request, res: Response) => {
   }
 };
 
-// Update a project
+
 export const updateProject = async (req: Request, res: Response) => {
   try {
     const projectId = req.params.id;
@@ -62,7 +60,7 @@ export const updateProject = async (req: Request, res: Response) => {
   }
 };
 
-// Delete a project
+
 export const deleteProject = async (req: Request, res: Response) => {
   try {
     const projectId = req.params.id;

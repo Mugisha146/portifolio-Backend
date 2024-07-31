@@ -1,18 +1,16 @@
-//src/controlller/userController.ts;
-
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { User } from "../models/User";
 import { generateToken, authenticateToken } from "../middleware/authMiddleware";
 
-// Controller function to register a new user
+
 export const registerUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({ email, password: hashedPassword });
     await user.save();
-    const token = generateToken(user);
+    const token = await generateToken(user);
     
     res.status(201).json(
       {
@@ -27,7 +25,31 @@ export const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-// Controller function to get all users
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+      return res.status(401).send("Invalid password");
+    }
+    const token = await generateToken(user);
+
+    res.status(201).json({
+      id: user._id,
+      email: user.email,
+      token: token,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error logging in");
+  }
+};
+
+
 export const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await User.find();
@@ -38,7 +60,7 @@ export const getUsers = async (req: Request, res: Response) => {
   }
 };
 
-// Controller function to get a user by ID
+
 export const getUserById = async (req: Request, res: Response) => {
   try {
     const userId = req.params.id;
@@ -53,7 +75,7 @@ export const getUserById = async (req: Request, res: Response) => {
   }
 };
 
-// Controller function to update a user
+
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.id;
@@ -74,7 +96,7 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-// Controller function to delete a user
+
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.id;

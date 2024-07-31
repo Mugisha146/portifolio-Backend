@@ -1,4 +1,3 @@
-// models/Subscription.ts
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface SubscriptionDocument extends Document {
