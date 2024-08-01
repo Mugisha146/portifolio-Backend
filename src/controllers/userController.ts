@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
+import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import { User } from "../models/User";
-import { generateToken, authenticateToken } from "../middleware/authMiddleware";
+import { generateToken } from "../middleware/authMiddleware";
 
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -63,8 +64,10 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.id;
+    const userId = req.user.id;
+
     const user = await User.findById(userId);
+    
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -78,12 +81,18 @@ export const getUserById = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    const userId = req.params.id;
-    const { password } = req.body;
+    const userId = req.user.id;
+    const { email, password } = req.body;
+
+     if (!email || !password) {
+       return res.status(400).json({ message: "Email & Password is required" });
+     }
+    
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.findByIdAndUpdate(
       userId,
-      { password: hashedPassword },
+
+      { email, password: hashedPassword },
       { new: true }
     );
     if (!user) {
@@ -109,4 +118,10 @@ export const deleteUser = async (req: Request, res: Response) => {
     console.error(error);
     res.status(500).json({ message: "Error deleting user" });
   }
+};
+
+
+export const logoutUser = (req: Request, res: Response) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "User logged out successfully" });
 };

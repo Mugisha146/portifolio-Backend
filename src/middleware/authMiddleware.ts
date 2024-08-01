@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config();
-// Extend the Request interface to include the user property
+
 declare global {
   namespace Express {
     interface Request {
@@ -21,7 +21,7 @@ export const generateToken = (user: any) => {
   return jwt.sign({ id: user._id }, secret, { expiresIn: "1h" });
 };
 
-// Middleware to authenticate token
+
 export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (authHeader) {
@@ -42,14 +42,16 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const restrictTo = (...email: any) => {
+export const restrictTo = (...allowedEmails: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
-   const email = req.user.email;
-   if (email !== (process.env.EMAILS as string)) {
-     return res.status(403).json({
-       message: "You are not authorized to perform this action",
-     });
-   }
+    const userEmail = req.user.email;
+
+    if (allowedEmails.includes(userEmail)) {
+      return res.status(403).json({
+        message: "You are not authorized to perform this action",
+      });
+    }
+
     next();
   };
 };

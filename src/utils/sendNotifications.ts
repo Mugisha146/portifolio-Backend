@@ -10,8 +10,8 @@ const sendNotifications = async (newBlog: any) => {
         
         service: "gmail",
         auth: {
-            user: process.env.EMAIL_USERNAME,
-            pass: process.env.EMAIL_PASSWORD,
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS,
         },
       });
       const mailOptions = {

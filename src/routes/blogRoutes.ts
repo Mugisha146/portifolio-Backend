@@ -13,11 +13,26 @@ import { authenticateToken, restrictTo } from "../middleware/authMiddleware";
 const router = express.Router();
 
 
-router.post("/create", authenticateToken, restrictTo, createBlog);
+router.post(
+  "/",
+  authenticateToken,
+  restrictTo(process.env.EMAILS as string),
+  createBlog
+);
 router.get("/", getBlogs);
 router.get("/:id", getBlogById);
-router.put("/:id", authenticateToken,restrictTo, updateBlog);
-router.delete("/:id", authenticateToken, restrictTo, deleteBlog);
+router.put(
+  "/:id",
+  authenticateToken,
+  restrictTo(process.env.EMAILS as string),
+  updateBlog
+);
+router.delete(
+  "/:id",
+  authenticateToken,
+  restrictTo(process.env.EMAILS as string),
+  deleteBlog
+);
 router.post("/:id/comments", authenticateToken, addComment);
 router.post("/:id/like", authenticateToken, likeBlog);
 router.post("/:id/share", authenticateToken, shareBlog);
