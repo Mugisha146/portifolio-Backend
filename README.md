@@ -13,7 +13,7 @@
 
   # Introduction
   
-Welcome to the Portfolio-backend API! This API serves as the backend for managing user accounts, blog posts, contact messages, projects, skills, and subscriptions. It provides various endpoints to interact with different entities within the system and built with Node.js and MongoDB.
+Welcome to the Portfolio-backend API! This API serves as the backend for managing user accounts, blog posts, contact messages, projects, skills, and subscriptions. It provides various endpoints to interact with different entities within the system and built with Node.js, ExpressJS with Typescript and MongoDB.
 
 # Getting Started
 To get started with the Portfolio-backend API, follow these steps:
