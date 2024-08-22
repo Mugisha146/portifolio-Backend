@@ -16,7 +16,7 @@ const router = express.Router();
 router.post(
   "/create",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   createSkill
 );
 router.get("/", getSkills);
@@ -24,13 +24,13 @@ router.get("/:id", getSkillById);
 router.put(
   "/:id",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   updateSkill
 );
 router.delete(
   "/:id",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   deleteSkill
 );
 

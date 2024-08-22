@@ -16,7 +16,7 @@ const router = express.Router();
 router.post(
   "/",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   createBlog
 );
 router.get("/", getBlogs);
@@ -24,13 +24,13 @@ router.get("/:id", getBlogById);
 router.put(
   "/:id",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   updateBlog
 );
 router.delete(
   "/:id",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   deleteBlog
 );
 router.post("/:id/comments", authenticateToken, addComment);

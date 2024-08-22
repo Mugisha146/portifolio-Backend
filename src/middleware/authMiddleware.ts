@@ -42,16 +42,14 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const restrictTo = (...allowedEmails: string[]) => {
+export const restrictTo = () => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const userEmail = req.user.email;
-
-    if (allowedEmails.includes(userEmail)) {
+    if (req.user.id === process.env.ADIMN) {
+      next();
+    } else {
       return res.status(403).json({
         message: "You are not authorized to perform this action",
       });
     }
-
-    next();
   };
 };

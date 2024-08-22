@@ -28,6 +28,10 @@ const swaggerDocument = {
               schema: {
                 type: "object",
                 properties: {
+                  name: {
+                    type: "string",
+                    example: "Emmanuel MUGISHA",
+                  },
                   email: {
                     type: "string",
                     example: "user@gmail.com",
@@ -36,8 +40,12 @@ const swaggerDocument = {
                     type: "string",
                     example: "password123",
                   },
+                  rePassword: {
+                    type: "string",
+                    example: "password123",
+                  },
                 },
-                required: ["email", "password"],
+                required: ["name", "email", "password", "rePassword"],
               },
             },
           },
@@ -54,6 +62,10 @@ const swaggerDocument = {
                       type: "string",
                       example: "60d0fe4f5311236168a109ca",
                     },
+                    name: {
+                      type: "string",
+                      example: "Emmanuel MUGISHA",
+                    },
                     email: {
                       type: "string",
                       example: "user@gmail.com",
@@ -64,7 +76,7 @@ const swaggerDocument = {
                         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
                     },
                   },
-                  required: ["id", "email", "token"],
+                  required: ["id", "name", "email", "token"],
                 },
               },
             },
@@ -148,6 +160,10 @@ const swaggerDocument = {
               schema: {
                 type: "object",
                 properties: {
+                  name: {
+                    type: "string",
+                    example: "Emmanuel MUGISHA",
+                  },
                   email: {
                     type: "string",
                     example: "user@gmail.com",
@@ -156,8 +172,12 @@ const swaggerDocument = {
                     type: "string",
                     example: "password123",
                   },
+                  rePassword: {
+                    type: "string",
+                    example: "password123",
+                  },
                 },
-                required: ["email", "password"],
+                required: ["name", "email", "password", "rePassword"],
               },
             },
           },
@@ -174,6 +194,10 @@ const swaggerDocument = {
                       type: "string",
                       example: "60d0fe4f5311236168a109ca",
                     },
+                    name: {
+                      type: "string",
+                      example: "Emmanuel MUGISHA",
+                    },
                     email: {
                       type: "string",
                       example: "user@gmail.com",
@@ -184,7 +208,7 @@ const swaggerDocument = {
                         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
                     },
                   },
-                  required: ["id", "email", "token"],
+                  required: ["id", "name", "email", "token"],
                 },
               },
             },
@@ -196,6 +220,7 @@ const swaggerDocument = {
             description: "Internal server error",
           },
         },
+        security: [{ bearerAuth: [] }],
       },
     },
     "/api/users/{id}": {
@@ -236,6 +261,10 @@ const swaggerDocument = {
               schema: {
                 type: "object",
                 properties: {
+                  name: {
+                    type: "string",
+                    description: "New name for the user",
+                  },
                   email: {
                     type: "string",
                     description: "New email for the user",
@@ -246,7 +275,7 @@ const swaggerDocument = {
                   },
                   // Add other fields that can be updated here
                 },
-                required: ["email, password"], // Adjust this as needed
+                required: ["name", "email, password"], // Adjust this as needed
               },
             },
           },
@@ -348,6 +377,11 @@ const swaggerDocument = {
             },
           },
         },
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
       },
     },
     "/api/blogs": {
@@ -367,29 +401,29 @@ const swaggerDocument = {
           },
         },
       },
-        post: {
-          summary: "Create a new blog (admin only)",
-          requestBody: {
-            required: true,
+      post: {
+        summary: "Create a new blog (admin only)",
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/Blog" },
+            },
+          },
+        },
+        responses: {
+          "201": {
+            description: "Blog created",
             content: {
               "application/json": {
                 schema: { $ref: "#/components/schemas/Blog" },
               },
             },
           },
-          responses: {
-            "201": {
-              description: "Blog created",
-              content: {
-                "application/json": {
-                  schema: { $ref: "#/components/schemas/Blog" },
-                },
-              },
-            },
-            "403": { description: "Forbidden" },
-          },
-          security: [{ bearerAuth: [] }],
+          "403": { description: "Forbidden" },
         },
+        security: [{ bearerAuth: [] }],
+      },
     },
     "/api/blogs/{id}": {
       get: {

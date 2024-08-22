@@ -17,7 +17,7 @@ router.put("/:id/reply",authenticateToken, replyToMessage);
 router.delete(
   "/:id",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   deleteMessage
 );
 

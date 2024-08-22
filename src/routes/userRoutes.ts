@@ -14,11 +14,11 @@ const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", loginUser);
-router.post("/", authenticateToken, restrictTo(process.env.EMAILS as string), registerUser);
+router.post("/", authenticateToken, restrictTo(), registerUser);
 router.get(
   "/",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   getUsers
 );
 router.get("/:id", authenticateToken, getUserById);
@@ -26,7 +26,7 @@ router.put("/:id", authenticateToken, updateUser);
 router.delete(
   "/:id",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   deleteUser
 );
 router.post("/logout", authenticateToken, logoutUser);

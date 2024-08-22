@@ -7,15 +7,23 @@ import { generateToken } from "../middleware/authMiddleware";
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const {name, email, password, rePassword } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = new User({ email, password: hashedPassword });
+    if (password!== rePassword) {
+      return res.status(400).json({ message: "Passwords do not match" });
+    }
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      rePassword: hashedPassword });
     await user.save();
     const token = await generateToken(user);
     
     res.status(201).json(
       {
         id: user._id,
+        name: user.name,
         email: user.email,
         token: token,
       }
@@ -82,9 +90,9 @@ export const getUserById = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
-     if (!email || !password) {
+     if (!name || !email || !password) {
        return res.status(400).json({ message: "Email & Password is required" });
      }
     
@@ -92,7 +100,7 @@ export const updateUser = async (req: Request, res: Response) => {
     const user = await User.findByIdAndUpdate(
       userId,
 
-      { email, password: hashedPassword },
+      { name, email, password: hashedPassword },
       { new: true }
     );
     if (!user) {

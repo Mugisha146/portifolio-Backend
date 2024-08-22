@@ -14,7 +14,7 @@ const router = express.Router();
 router.post(
   "/create",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   createProject
 );
 router.get("/", getAllProjects);
@@ -22,13 +22,13 @@ router.get("/:id", getProjectById);
 router.put(
   "/:id",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   updateProject
 );
 router.delete(
   "/:id",
   authenticateToken,
-  restrictTo(process.env.EMAILS as string),
+  restrictTo(),
   deleteProject
 );
 
